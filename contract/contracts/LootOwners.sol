@@ -25,13 +25,7 @@ contract LootOwners is Ownable {
   /**
    * @dev See {IERC721-balanceOf}.
    */
-  function balanceOf(address owner)
-    public
-    view
-    virtual
-    override
-    returns (uint256)
-  {
+  function balanceOf(address owner) public view virtual returns (uint256) {
     require(owner != address(0), "ERC721: balance query for the zero address");
     return _balances[owner];
   }
@@ -39,13 +33,7 @@ contract LootOwners is Ownable {
   /**
    * @dev See {IERC721-ownerOf}.
    */
-  function ownerOf(uint256 tokenId)
-    public
-    view
-    virtual
-    override
-    returns (address)
-  {
+  function ownerOf(uint256 tokenId) public view virtual returns (address) {
     address owner = _owners[tokenId];
     require(owner != address(0), "ERC721: owner query for nonexistent token");
     return owner;
@@ -58,11 +46,10 @@ contract LootOwners is Ownable {
     public
     view
     virtual
-    override
     returns (uint256)
   {
     require(
-      index < ERC721.balanceOf(owner),
+      index < balanceOf(owner),
       "ERC721Enumerable: owner index out of bounds"
     );
     return _ownedTokens[owner][index];
@@ -71,11 +58,7 @@ contract LootOwners is Ownable {
   /**
    * @dev See {IERC721-setApprovalForAll}.
    */
-  function setApprovalForAll(address operator, bool approved)
-    public
-    virtual
-    override
-  {
+  function setApprovalForAll(address operator, bool approved) public virtual {
     require(operator != _msgSender(), "ERC721: approve to caller");
 
     _operatorApprovals[_msgSender()][operator] = approved;
@@ -88,67 +71,68 @@ contract LootOwners is Ownable {
     public
     view
     virtual
-    override
     returns (bool)
   {
     return _operatorApprovals[owner][operator];
   }
 
   /**
-   * Update function called by the owner of this contract
-   *
    * The update should include entries for incoming-owners and
    * any existing owners whose balances have changed
    *
-   * It's necessary to include entries for owners whose balances haven't
-   * changed if they're not already indexed by the contract
+   * It should also include entries for owners whose balances haven't
+   * been indexed by the contract
    *
-   * It's not necessary to include entries for out-going owners since
-   * their state will be reset automatically
-   *
-   * First we reset the state for the owners and token ids included
-   * in the update, then we update the state with the new values 
+   * It's not necessary to include entries for out-going owners
    */
-  function setOwners(OwnerUpdate[] memory _ownerUpdates) public onlyOwner {
+  function setOwners(OwnerUpdate[] calldata _ownerUpdates) public onlyOwner {
     // For each of the owner updates
     for (uint256 i = 0; i < _ownerUpdates.length; i++) {
-        owner = _ownerUpdates[i].owner;
-        tokenIds = _ownerUpdates[i].tokenIds;
+      address owner = _ownerUpdates[i].owner;
+      uint256[] calldata tokenIds = _ownerUpdates[i].tokenIds;
 
-        // Reset the balances of the owner
-        delete _balances[owner]
-        // Reset the owned tokens of the owner
-        delete _ownedTokens[owner]
+      uint256 ownerBalance = _balances[owner];
 
-        // For each of the token ids
-        for (uint256 i = 0; i < tokenIds.length; i++) {
-          previousOwner = _owners[tokenIds[i]]
-          // Reset the balances of the previous owner
-          delete _balances[previousOwner]
-          // Reset the owned tokens of the previous owner
-          delete _ownedTokens[previousOwner]
-          // Reset the owner of the token ids
-          delete _owners[tokenIds[i]]
+      // Reset the owned tokens of the owner
+      for (uint256 j = 0; j < ownerBalance; j++) {
+        delete _ownedTokens[owner][j];
+      }
+
+      // Reset the balance of the owner
+      delete _balances[owner];
+
+      // For each of the token ids
+      for (uint256 k = 0; k < tokenIds.length; k++) {
+        address previousOwner = _owners[tokenIds[k]];
+        uint256 previousOwnerBalance = _balances[previousOwner];
+
+        // Reset the owned tokens of the previous owner
+        for (uint256 l = 0; l < previousOwnerBalance; l++) {
+          delete _ownedTokens[previousOwner][l];
         }
+
+        // Reset the balances of the previous owner
+        delete _balances[previousOwner];
+
+        // Reset the owner of the token ids
+        delete _owners[tokenIds[k]];
+      }
     }
 
     // For each of the owner updates
-    for (uint256 i = 0; i < _ownerUpdates.length; i++) {
-        owner = _ownerUpdates[i].owner;
-        tokenIds = _ownerUpdates[i].tokenIds;
+    for (uint256 k = 0; k < _ownerUpdates.length; k++) {
+      address owner = _ownerUpdates[k].owner;
+      uint256[] calldata tokenIds = _ownerUpdates[k].tokenIds;
 
-        // Set the balances of the owner
-        _balances[owner] = tokenIds.length
+      // Set the balances of the owner
+      _balances[owner] = tokenIds.length;
 
+      for (uint256 l = 0; l < tokenIds.length; l++) {
         // Set the owner of the token ids
-        for (uint256 i = 0; i < tokenIds.length; i++) {
-          _owners[tokenIds[i]] = owner;
-        }
-
+        _owners[tokenIds[l]] = owner;
         // Set the owned tokens of the owner
-        for (uint256 i = 0; i < tokenIds.length; i++) {
-          _ownedTokens[owner][i] = tokenIds[i]
-        }
+        _ownedTokens[owner][l] = tokenIds[l];
+      }
     }
   }
 }
