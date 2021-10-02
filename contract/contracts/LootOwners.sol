@@ -77,6 +77,9 @@ contract LootOwners is Ownable {
   }
 
   /**
+   * The owner of this contract can call this function to 
+   * update the owner states
+   *
    * The update should include entries for incoming owners and
    * any existing owners whose balances have changed
    *
@@ -86,7 +89,7 @@ contract LootOwners is Ownable {
    * It's not necessary to include entries for outgoing owners (they'll 
    * be deleted automatically)
    */
-  function setOwners(OwnerUpdate[] calldata _ownerUpdates) public onlyOwner {
+  function setLootOwners(OwnerUpdate[] calldata _ownerUpdates) public onlyOwner {
     // For each of the owner updates
     for (uint256 i = 0; i < _ownerUpdates.length; i++) {
       address owner = _ownerUpdates[i].owner;

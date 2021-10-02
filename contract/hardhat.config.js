@@ -19,13 +19,16 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
  */
 module.exports = {
   solidity: "0.8.4",
-   networks: {
-     ropsten: {
+  networks: {
+    polygon: {
       url: "https://polygon-rpc.com",
       accounts: [process.env.LOOT_BRIDGE_PRIVATE_KEY],
-    }
+      gas: 2100000,
+      gasPrice: 20000000000,
+      nonce: 0,
+    },
   },
   etherscan: {
-    apiKey: process.env.POLYGON_SCAN_API_KEY
-  }
+    apiKey: process.env.POLYGON_SCAN_API_KEY,
+  },
 };

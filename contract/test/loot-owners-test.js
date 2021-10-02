@@ -15,7 +15,7 @@ describe("LootOwners", function () {
     /*
      * Let's suppose there are only two owners at first
      */
-    const setOwnersTx = await lootOwners.setOwners([
+    const setOwnersTx = await lootOwners.setLootOwners([
       {
         owner: ADDRESS_1,
         tokenIds: [1, 2, 3],
@@ -59,7 +59,7 @@ describe("LootOwners", function () {
      * We'll send an update for the addresses where balances have
      * changed, ommiting addresses which are no longer owners
      */
-    const setOwnersTx2 = await lootOwners.setOwners([
+    const setOwnersTx2 = await lootOwners.setLootOwners([
       {
         owner: ADDRESS_1,
         tokenIds: [1, 3],
