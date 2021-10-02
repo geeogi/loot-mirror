@@ -77,13 +77,14 @@ contract LootOwners is Ownable {
   }
 
   /**
-   * The update should include entries for incoming-owners and
+   * The update should include entries for incoming owners and
    * any existing owners whose balances have changed
    *
-   * It should also include entries for owners whose balances haven't
-   * been indexed by the contract
+   * It can also include entries for owners whose balances may not have
+   * changed but haven't yet been indexed by the contract
    *
-   * It's not necessary to include entries for out-going owners
+   * It's not necessary to include entries for outgoing owners (they'll 
+   * be deleted automatically)
    */
   function setOwners(OwnerUpdate[] calldata _ownerUpdates) public onlyOwner {
     // For each of the owner updates
@@ -91,9 +92,8 @@ contract LootOwners is Ownable {
       address owner = _ownerUpdates[i].owner;
       uint256[] calldata tokenIds = _ownerUpdates[i].tokenIds;
 
-      uint256 ownerBalance = _balances[owner];
-
       // Reset the owned tokens of the owner
+      uint256 ownerBalance = _balances[owner];
       for (uint256 j = 0; j < ownerBalance; j++) {
         delete _ownedTokens[owner][j];
       }
@@ -104,9 +104,9 @@ contract LootOwners is Ownable {
       // For each of the token ids
       for (uint256 k = 0; k < tokenIds.length; k++) {
         address previousOwner = _owners[tokenIds[k]];
-        uint256 previousOwnerBalance = _balances[previousOwner];
 
         // Reset the owned tokens of the previous owner
+        uint256 previousOwnerBalance = _balances[previousOwner];
         for (uint256 l = 0; l < previousOwnerBalance; l++) {
           delete _ownedTokens[previousOwner][l];
         }
