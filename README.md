@@ -16,9 +16,9 @@ The LootMirror automatically mirrors L1 owner data on L2 without any action requ
 
 The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is currently deployed on Polygon.
 
-## Cron
+## Infra
 
-A cron job at `infra/sync.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job will run periodically via GitHub actions (in progress).
+The script `infra/seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `infra/sync.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job will run periodically via GitHub actions (in progress).
 
 ## More Loot
 

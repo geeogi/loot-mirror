@@ -45,6 +45,7 @@ polygonProvider.ready.then(() => {
   );
 
   const polygonWallet = new ethers.Wallet(PRIVATE_KEY, polygonProvider);
+
   const lootMirrorContractWithSigner =
     lootMirrorContract.connect(polygonWallet);
 
