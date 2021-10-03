@@ -11,3 +11,7 @@ The LootMirror enables L1 loot owners to play games with their bags on L2. You c
 ## Contract
 
 The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is currently deployed on Polygon.
+
+## Credit
+
+Built after conversations with [sammybauch](https://twitter.com/sammybauch) and Peter Watts in the Loot builders discord.
