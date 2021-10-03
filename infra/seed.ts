@@ -38,14 +38,15 @@ const LOOT_IDS = Array(7777)
   .map((_, index) => index + 1);
 
 polygonProvider.ready.then(() => {
-  const contract = new ethers.Contract(
+  const lootMirrorContract = new ethers.Contract(
     lootMirrorContractAddress,
     lootMirrorAbi,
     polygonProvider
   );
 
-  const wallet = new ethers.Wallet(PRIVATE_KEY, polygonProvider);
-  const contractWithSigner = contract.connect(wallet);
+  const polygonWallet = new ethers.Wallet(PRIVATE_KEY, polygonProvider);
+  const lootMirrorContractWithSigner =
+    lootMirrorContract.connect(polygonWallet);
 
   chunk(LOOT_IDS, 100).map((lootIds, chunkIndex) => {
     const lootContractCallContext: ContractCallContext[] = [
@@ -73,6 +74,9 @@ polygonProvider.ready.then(() => {
       },
     ];
 
+    /*
+     * Fetch all the token owners in a multicall
+     */
     ethMulticall.call(lootContractCallContext).then((results) => {
       const lootMirror: { [address: string]: number[] } = {};
 
@@ -98,7 +102,10 @@ polygonProvider.ready.then(() => {
 
       const chunkName = `${lootIds[0]}-${lootIds[lootIds.length - 1]}`;
 
-      contractWithSigner
+      /*
+       * Send owner updates to the LootMirror
+       */
+      lootMirrorContractWithSigner
         .setLootOwners(ownerUpdates, options)
         .then((tx: TransactionResponse) => {
           console.log(`tx sent: ${chunkName}: ${tx.hash}`);
