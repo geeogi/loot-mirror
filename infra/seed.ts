@@ -22,9 +22,9 @@ const ethMulticall = new Multicall({
 /*
  * LootMirror
  *
- * https://polygonscan.com/address/0x546773aeea1eace2681ef477b4e1936a4bf927cd
+ * https://polygonscan.com/address/0xd09B6fBaCE8c284B2A6633c74163E2520f585acF
  */
-const lootMirrorContractAddress = "0x546773aeea1eace2681ef477b4e1936a4bf927cd";
+const lootMirrorContractAddress = "0xd09B6fBaCE8c284B2A6633c74163E2520f585acF";
 
 const lootMirrorAbi = [
   "function setLootOwners(tuple(address owner, uint256[] tokenIds)[] _ownerUpdates)",
@@ -33,7 +33,7 @@ const lootMirrorAbi = [
 /*
  * Send owner updates for all token IDs to seed the contract state
  */
-const LOOT_IDS = Array(7779)
+const LOOT_IDS = Array(7777)
   .fill(null)
   .map((_, index) => index + 1);
 
@@ -47,7 +47,7 @@ polygonProvider.ready.then(() => {
   const wallet = new ethers.Wallet(PRIVATE_KEY, polygonProvider);
   const contractWithSigner = contract.connect(wallet);
 
-  chunk(LOOT_IDS, 100).map((lootIds) => {
+  chunk(LOOT_IDS, 100).map((lootIds, chunkIndex) => {
     const lootContractCallContext: ContractCallContext[] = [
       {
         reference: "Loot",
@@ -87,7 +87,8 @@ polygonProvider.ready.then(() => {
 
       const options = {
         gasLimit: 10000000,
-        gasPrice: ethers.utils.parseUnits("6.0", "gwei"),
+        gasPrice: ethers.utils.parseUnits("5.0", "gwei"),
+        nonce: chunkIndex,
       };
 
       const ownerUpdates = Object.entries(lootMirror).map((entry) => ({
@@ -95,23 +96,23 @@ polygonProvider.ready.then(() => {
         tokenIds: entry[1],
       }));
 
+      const chunkName = `${lootIds[0]}-${lootIds[lootIds.length - 1]}`;
+
       contractWithSigner
         .setLootOwners(ownerUpdates, options)
         .then((tx: TransactionResponse) => {
-          console.log(`tx sent: ${tx.hash}`);
+          console.log(`tx sent: ${chunkName}: ${tx.hash}`);
 
           tx.wait()
             .then((receipt) => {
-              console.log(`status: ${receipt.status}`);
+              console.log(`status: ${chunkName}: ${receipt.status}`);
             })
             .catch(() => {
-              console.log(
-                `error: ${lootIds[0]}-${lootIds[lootIds.length - 1]}`
-              );
+              console.log(`error: ${chunkName}`);
             });
         })
         .catch(() => {
-          console.log(`error: ${lootIds[0]}-${lootIds[lootIds.length - 1]}`);
+          console.log(`error: ${chunkName}`);
         });
     });
   });
