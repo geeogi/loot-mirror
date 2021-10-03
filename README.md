@@ -4,11 +4,13 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 The owner state will be updated regularly to reflect L1 transfers of Loot. At the moment the update can only be performed by the owner of the LootMirror contract.
 
-> LootMirror is ready to trial, but it's a work in progress and some of the owner data could be inaccurate right now
+> LootMirror is ready to trial, but it's a work in progress and some of the owner data could be inaccurate
 
-## More
+## How it works
 
-In theory the LootMirror enables L1 Loot owners to play games with their bags on L2. You could build a game for Loot on L2 and use the LootMirror to fetch bag attributes and authorise players, leveraging the Loot component data and existing Loot owner community. The scores of the game could be associated with the bag id in which case new Loot owners would inherit the score of their bags. Any existing ERC-721 compatible L2 game could be played by Loot owners via the LootMirror.
+LootMirror enables L1 Loot owners to play games with their bags on L2. You could build a game for Loot on L2 and use the LootMirror to fetch bag attributes and authorise players, leveraging the Loot component data and existing Loot owner community. The scores of the game can be associated with the bag id in which case new Loot owners would inherit the score of their bags. Any existing ERC-721 compatible L2 game could be played by Loot owners via the LootMirror.
+
+The LootMirror automatically mirrors L1 owner data on L2 without any action required from the user. The L1 Loot doesn't need to be locked or staked.
 
 ## Contract
 
@@ -20,7 +22,7 @@ A cron job at `infra/sync.ts` is used to sync the LootMirror to reflect recent L
 
 ## Future
 
-The LootMirror currently relies on centralised infrastructure to run the cron job and update the owner state. Ideally there would be a decentralised / community owned solution here.
+The LootMirror currently relies on centralised infrastructure to run the cron job and update the owner state. Ideally there would be a decentralised / community owned solution.
 
 ## Credit
 
