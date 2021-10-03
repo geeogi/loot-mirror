@@ -8,9 +8,9 @@ The owner state will be updated regularly to reflect L1 transfers of Loot. At th
 
 ## How it works
 
-LootMirror enables L1 Loot owners to play games with their bags on L2. You could build a game for Loot on L2 and use the LootMirror to fetch bag attributes and authorise players, leveraging the Loot component data and existing Loot owner community. The scores of the game can be associated with the bag id in which case new Loot owners would inherit the score of their bags. Any existing ERC-721 compatible L2 game could be played by Loot owners via the LootMirror.
+LootMirror enables L1 Loot owners to play games with their bags on L2. You could build a game for Loot on L2 and use the LootMirror to authorise players and fetch their bag attributes, leveraging the existing Loot owner community and cheap TXs. The scores of any L2 game can be associated with the bag id (new Loot owners would inherit the score of their bags). Any existing ERC-721 compatible L2 game could be played by Loot owners via the LootMirror.
 
-The LootMirror automatically mirrors L1 owner data on L2 without any action required from the user. The L1 Loot doesn't need to be locked or staked.
+The LootMirror automatically mirrors L1 owner data on L2 without any action required from the users. The L1 Loot doesn't need to be locked or staked and is never at risk.
 
 ## Contract
 
