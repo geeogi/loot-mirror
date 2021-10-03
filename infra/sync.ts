@@ -31,7 +31,7 @@ const lootContract = new Contract(
 
 const filter = {
   ...lootContract.filters.Transfer(),
-  fromBlock: ethProvider.getBlockNumber().then((b) => b - 1000),
+  fromBlock: ethProvider.getBlockNumber().then((b) => b - 2000),
   toBlock: "latest",
 };
 
