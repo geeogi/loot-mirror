@@ -15,5 +15,5 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - run: yarn tsc index.ts
-      - run: node index.js
+      - run: yarn tsc sync.ts
+      - run: node sync.js
