@@ -30,9 +30,6 @@ const ethMulticall = new Multicall({
 });
 
 const run = async () => {
-  await ethProvider.ready;
-  await polygonProvider.ready;
-
   const contract = new ethers.Contract(
     LOOT_MIRROR_ADDRESS,
     LOOT_MIRROR_ABI,
@@ -111,3 +108,5 @@ const run = async () => {
       });
   }
 };
+
+run();
