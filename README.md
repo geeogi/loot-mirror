@@ -18,7 +18,7 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 ## Infra
 
-The script `seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `sync.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job will run periodically via GitHub actions (in progress).
+The script `seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `sync.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via GitHub actions.
 
 ## More Loot
 
