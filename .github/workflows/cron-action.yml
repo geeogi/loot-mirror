@@ -7,12 +7,13 @@ on:
 jobs:
   sync:
     env:
-      PRIVATE_KEY: ${{ secrets.PrivateKey }}
+      LOOT_BRIDGE_PRIVATE_KEY: ${{ secrets.PrivateKey }}
+      ETHEREUM_RPC_ENDPOINT: ${{ secrets.ETHEREUM_RPC_ENDPOINT }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - run: yarn tsc sync.ts
-      - run: node sync.js
+      - run: yarn tsc index.ts
+      - run: node index.js
