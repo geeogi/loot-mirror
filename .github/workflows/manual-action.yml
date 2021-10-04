@@ -1,11 +1,11 @@
-name: Manual Pet
+name: Manual Sync
 
 on: workflow_dispatch
 
 jobs:
-  pet:
+  sync:
     env:
-      PRIVATE_KEY: ${{ secrets.PrivateKey }}
+      LOOT_BRIDGE_PRIVATE_KEY: ${{ secrets.PrivateKey }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -13,6 +13,5 @@ jobs:
         with:
           node-version: '12'
       - run: yarn tsc index.ts
-      - run: node test.js
       - run: node index.js
 
