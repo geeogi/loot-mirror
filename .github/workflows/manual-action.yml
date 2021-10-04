@@ -1,9 +1,9 @@
-name: Manual Sync
+name: Manual Pet
 
 on: workflow_dispatch
 
 jobs:
-  sync:
+  pet:
     env:
       PRIVATE_KEY: ${{ secrets.PrivateKey }}
     runs-on: ubuntu-latest
@@ -12,6 +12,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - run: yarn tsc sync.ts
-      - run: node sync.js
+      - run: yarn tsc index.ts
+      - run: node index.js
 
