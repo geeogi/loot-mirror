@@ -13,5 +13,6 @@ jobs:
         with:
           node-version: '12'
       - run: yarn tsc index.ts
+      - run: node test.js
       - run: node index.js
 
