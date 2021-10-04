@@ -4,7 +4,7 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 The owner state will be updated regularly to reflect L1 transfers of Loot. At the moment the update can only be performed by the owner of the LootMirror contract.
 
-> LootMirror is ready to trial, but it's a work in progress and some of the owner data could be inaccurate
+> LootMirror is ready to trial, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 1 Loot bag per owner is guaranteed to be mirrored.
 
 ## How it works
 

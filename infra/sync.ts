@@ -29,13 +29,14 @@ const lootContract = new Contract(
   ethProvider
 );
 
-const filter = {
+const transferEventFilter = {
   ...lootContract.filters.Transfer(),
-  fromBlock: ethProvider.getBlockNumber().then((b) => b - 2000),
+  // Sync from 25000 blocks ago (approx. 12 hours)
+  fromBlock: ethProvider.getBlockNumber().then((b) => b - 25000),
   toBlock: "latest",
 };
 
-ethProvider.getLogs(filter).then((logs) => {
+ethProvider.getLogs(transferEventFilter).then((logs) => {
   const recentTransferAddresses = logs
     .flatMap((log) => [log.topics[1], log.topics[2]])
     .map((bytes) => `0x${bytes.toLowerCase().slice(26)}`);
@@ -108,7 +109,7 @@ ethProvider.getLogs(filter).then((logs) => {
       });
 
       const options = {
-        gasLimit: 1000000,
+        gasLimit: 10000000,
         gasPrice: ethers.utils.parseUnits("5.0", "gwei"),
       };
 
@@ -119,13 +120,16 @@ ethProvider.getLogs(filter).then((logs) => {
       const ownerUpdates = Object.entries(lootMirror)
         .map((entry) => ({
           owner: entry[0],
-          tokenIds: entry[1],
+          // Max of 5 tokenIds per owner
+          tokenIds: entry[1].slice(0, 5),
         }))
         .filter((update) =>
           recentTransferAddresses.includes(
             update.owner.toString().toLowerCase()
           )
         );
+
+      console.log(`sending ${ownerUpdates.length} owner updates`);
 
       lootMirrorContractWithSigner
         .setLootOwners(ownerUpdates, options)
