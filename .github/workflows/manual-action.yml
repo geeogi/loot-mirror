@@ -3,7 +3,7 @@ name: Manual Sync
 on: workflow_dispatch
 
 jobs:
-  pet:
+  sync:
     env:
       PRIVATE_KEY: ${{ secrets.PrivateKey }}
     runs-on: ubuntu-latest
