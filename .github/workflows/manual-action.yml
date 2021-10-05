@@ -13,6 +13,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - run: yarn tsc sync.ts
-      - run: node sync.js
+      - run: yarn tsc sanity.ts
+      - run: node sanity.js
 

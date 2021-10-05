@@ -1,17 +1,17 @@
 import { Multicall } from "ethereum-multicall";
-import { sendOwnerUpdates } from "./utils/update";
+import { sendOwnerUpdates } from "../utils/update";
 import { ethers } from "ethers";
 import { chunk } from "lodash";
 import {
   LOOT_ADDRESS,
   LOOT_IDS,
   POLYGON_RPC_ENDPOINT,
-} from "./utils/constants";
-import { aggregateLootOwners, getOwnersForLootIds } from "./utils/owners";
+} from "../utils/constants";
+import { aggregateLootOwners, getOwnersForLootIds } from "../utils/owners";
 import {
   findAddressesInTransferLogs,
   recentLootTransfers,
-} from "./utils/transfers";
+} from "../utils/transfers";
 
 const polygonProvider = new ethers.providers.JsonRpcProvider(
   POLYGON_RPC_ENDPOINT
@@ -47,8 +47,8 @@ const run = async () => {
   const ownerUpdates = Object.entries(lootOwners)
     .map((entry) => ({
       owner: entry[0],
-      // Max 20 per owner (some users have 600+ bags, too much gas to handle)
-      tokenIds: entry[1].slice(0, 20),
+      // Max 5 per owner (some users have 600+ bags, too much gas to handle)
+      tokenIds: entry[1].slice(0, 5),
     }))
     .filter((update) =>
       recentTransferAddresses.includes(update.owner.toString().toLowerCase())

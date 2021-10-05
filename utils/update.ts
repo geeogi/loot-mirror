@@ -16,9 +16,6 @@ export const sendOwnerUpdates = (
   const wallet = new ethers.Wallet(PRIVATE_KEY, polygonProvider);
   const signer = contract.connect(wallet);
 
-  /*
-   * write update to local file for debugging purposes
-   */
   if (!process.env.CI) {
     fs.writeFile(
       `./output/ownerUpdates-${Date.now()}.json`,

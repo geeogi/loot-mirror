@@ -33,6 +33,7 @@ const ethMulticall = new Multicall({
 });
 
 const run = async () => {
+  // Fetch owners for all tokenIds aggregated by owner
   const ethLootOwners = aggregateLootOwners(
     await Promise.all(
       chunk(LOOT_IDS, 1000).map((thisChunk) =>
@@ -41,6 +42,7 @@ const run = async () => {
     )
   );
 
+  // Fetch owners for all tokenIds aggregated by owner (mirror)
   const mirrorLootOwners = aggregateLootOwners(
     await Promise.all(
       chunk(LOOT_IDS, 1000).map((thisChunk) =>
@@ -49,6 +51,7 @@ const run = async () => {
     )
   );
 
+  // Fetch all balances of Loot owners
   const ethLootBalances = aggregateLootBalances(
     await Promise.all(
       chunk(Object.keys(ethLootOwners), 1000).map((thisChunk) =>
@@ -57,6 +60,7 @@ const run = async () => {
     )
   );
 
+  // Fetch all balances of Loot owners (mirror)
   const mirrorLootBalances = aggregateLootBalances(
     await Promise.all(
       chunk(Object.keys(mirrorLootOwners), 1000).map((thisChunk) =>
@@ -69,17 +73,18 @@ const run = async () => {
     )
   );
 
-  const affectedAddresses = [];
+  // Addresses that require update (e.g. involved in recent transfers)
+  const addressesToUpdate = [];
 
   Object.keys(ethLootOwners).forEach((address) => {
-    const lootBags = ethLootOwners[address];
-    const lootBalance = ethLootBalances[address];
+    const lootBags = (ethLootOwners[address] || []).slice(0, 5);
+    const lootBalance = Math.min(ethLootBalances[address], 5) || 0;
 
-    const mirrorBags = mirrorLootOwners[address];
-    const mirrorBalance = mirrorLootBalances[address];
+    const mirrorBags = (mirrorLootOwners[address] || []).slice(0, 5);
+    const mirrorBalance = Math.min(mirrorLootBalances[address], 5) || 0;
 
     if (lootBags && !mirrorBags) {
-      affectedAddresses.push(address);
+      addressesToUpdate.push(address);
       console.log(`${address}: missing all bags`);
       return;
     }
@@ -93,19 +98,19 @@ const run = async () => {
     ).length;
 
     if (bagsMissingFromMirror) {
-      affectedAddresses.push(address);
+      addressesToUpdate.push(address);
       console.log(`${address}: missing ${bagsMissingFromMirror} bags`);
     }
 
     if (bagsIncorrectlyInMirror) {
-      affectedAddresses.push(address);
+      addressesToUpdate.push(address);
       console.log(
         `${address}: found ${bagsIncorrectlyInMirror} incorrect bags`
       );
     }
 
     if (lootBalance !== mirrorBalance) {
-      affectedAddresses.push(address);
+      addressesToUpdate.push(address);
       console.log(
         `${address}: loot balance ${lootBalance}, mirror balance: ${mirrorBalance}`
       );
@@ -113,19 +118,19 @@ const run = async () => {
   });
 
   Object.keys(mirrorLootOwners).forEach((address) => {
-    const lootBags = ethLootOwners[address];
-    const lootBalance = ethLootBalances[address];
+    const lootBags = (ethLootOwners[address] || []).slice(0, 5);
+    const lootBalance = Math.min(ethLootBalances[address], 5) || 0;
 
-    const mirrorBags = mirrorLootOwners[address];
-    const mirrorBalance = mirrorLootBalances[address];
+    const mirrorBags = (mirrorLootOwners[address] || []).slice(0, 5);
+    const mirrorBalance = Math.min(mirrorLootBalances[address], 5) || 0;
 
     if (mirrorBags && !lootBags) {
-      affectedAddresses.push(address);
+      addressesToUpdate.push(address);
       console.log(`${address}: found bags for non-owner`);
     }
 
     if (lootBalance !== mirrorBalance) {
-      affectedAddresses.push(address);
+      addressesToUpdate.push(address);
       console.log(
         `${address}: loot balance ${lootBalance}, mirror balance: ${mirrorBalance}`
       );
@@ -135,12 +140,21 @@ const run = async () => {
   /*
    * Send healing transaction
    */
-  const uniqueAddresses = uniq(affectedAddresses);
+  const uniqueAddresses = uniq(addressesToUpdate);
 
-  const ownerUpdates = uniqueAddresses.map((address) => ({
-    owner: address,
-    tokenIds: ethLootOwners[address],
-  }));
+  console.log(`found ${uniqueAddresses.length} addresses to update`);
+
+  const ownerUpdates = uniqueAddresses
+    .map((address) => ({
+      owner: address,
+      /*
+       * Max 5 bags mirrored per address for now
+       * Some owners have 600+ bags (=lots of gas), could be attempted for V2
+       */
+      tokenIds: (ethLootOwners[address] || []).slice(0, 5),
+    }))
+    // could be 100s of updates, let's send 100 and pick up the rest next time
+    .slice(0, 100);
 
   console.log(`prepared ${ownerUpdates.length} owner updates`);
 

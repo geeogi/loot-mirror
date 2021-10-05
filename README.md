@@ -4,7 +4,7 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 The owner state is updated regularly to reflect L1 transfers of Loot (see [actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml)). At the moment the update can only be performed by the owner of the LootMirror contract.
 
-> LootMirror is ready to trial, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 1 Loot bag per owner is guaranteed to be mirrored.
+> LootMirror is ready to use, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 5 Loot bags per owner are guaranteed to be mirrored.
 
 ## How it works
 
@@ -18,7 +18,7 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 ## Infra
 
-The script `seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `sync.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
+The script `legacy/seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `sanity.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
 
 ## More Loot
 
