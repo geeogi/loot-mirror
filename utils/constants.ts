@@ -2,6 +2,8 @@ export const POLYGON_RPC_ENDPOINT = "https://polygon-rpc.com";
 
 export const PRIVATE_KEY = process.env.LOOT_BRIDGE_PRIVATE_KEY;
 
+export const LOOT_ADDRESS = "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7";
+
 export const LOOT_MIRROR_ADDRESS = "0xd09B6fBaCE8c284B2A6633c74163E2520f585acF";
 
 export const LOOT_MIRROR_ABI = [

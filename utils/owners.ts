@@ -2,12 +2,13 @@ import { ContractCallContext, Multicall } from "ethereum-multicall";
 
 export const getOwnersForLootIds = async (
   ethMulticall: Multicall,
-  lootIds: number[]
+  lootIds: number[],
+  contractAddress: string
 ) => {
   const lootContractCallContext: ContractCallContext[] = [
     {
       reference: "Loot",
-      contractAddress: "0xFF9C1b15B16263C61d017ee9F65C50e4AE0113D7",
+      contractAddress,
       abi: [
         {
           inputs: [

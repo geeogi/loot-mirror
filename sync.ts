@@ -1,14 +1,11 @@
-import { TransactionResponse } from "@ethersproject/abstract-provider";
 import { Multicall } from "ethereum-multicall";
+import { sendOwnerUpdates } from "./utils/update";
 import { ethers } from "ethers";
-import * as fs from "fs";
 import { chunk } from "lodash";
 import {
-  PRIVATE_KEY,
-  POLYGON_RPC_ENDPOINT,
-  LOOT_MIRROR_ADDRESS,
-  LOOT_MIRROR_ABI,
+  LOOT_ADDRESS,
   LOOT_IDS,
+  POLYGON_RPC_ENDPOINT,
 } from "./utils/constants";
 import { aggregateLootOwners, getOwnersForLootIds } from "./utils/owners";
 import {
@@ -30,15 +27,6 @@ const ethMulticall = new Multicall({
 });
 
 const run = async () => {
-  const contract = new ethers.Contract(
-    LOOT_MIRROR_ADDRESS,
-    LOOT_MIRROR_ABI,
-    polygonProvider
-  );
-
-  const wallet = new ethers.Wallet(PRIVATE_KEY, polygonProvider);
-  const signer = contract.connect(wallet);
-
   console.log("fetching recent Loot transfers");
   const transferLogs = await recentLootTransfers(ethProvider);
   const recentTransferAddresses = findAddressesInTransferLogs(transferLogs);
@@ -47,7 +35,7 @@ const run = async () => {
   const lootOwners = aggregateLootOwners(
     await Promise.all(
       chunk(LOOT_IDS, 1000).map((thisChunk) =>
-        getOwnersForLootIds(ethMulticall, thisChunk)
+        getOwnersForLootIds(ethMulticall, thisChunk, LOOT_ADDRESS)
       )
     )
   );
@@ -68,45 +56,7 @@ const run = async () => {
 
   console.log(`prepared ${ownerUpdates.length} owner updates`);
 
-  /*
-   * write update to local file for debugging purposes
-   */
-  if (!process.env.CI) {
-    fs.writeFile(
-      `./output/ownerUpdates-${Date.now()}.json`,
-      JSON.stringify(ownerUpdates, null, 2),
-      "utf8",
-      () => {}
-    );
-  }
-
-  if (ownerUpdates.length > 0) {
-    console.log("sending tx to LootMirror");
-
-    const options = {
-      gasLimit: 10000000,
-      gasPrice: ethers.utils.parseUnits("10.0", "gwei"),
-    };
-
-    signer
-      .setLootOwners(ownerUpdates, options)
-      .then((tx: TransactionResponse) => {
-        console.log(`tx sent: ${tx.hash}`);
-
-        tx.wait()
-          .then((receipt) => {
-            console.log(`status: ${receipt.status}`);
-          })
-          .catch((e: any) => {
-            console.log(e);
-            throw new Error(e);
-          });
-      })
-      .catch((e: any) => {
-        console.log(e);
-        throw new Error(e);
-      });
-  }
+  sendOwnerUpdates(polygonProvider, ownerUpdates);
 };
 
 run();
