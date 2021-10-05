@@ -77,6 +77,10 @@ const run = async () => {
   const addressesToUpdate = [];
 
   Object.keys(ethLootOwners).forEach((address) => {
+    /*
+     * Max 5 bags mirrored per address for now
+     * Some owners have 600+ bags (=lots of gas), can be attempted for V2
+     */
     const lootBags = (ethLootOwners[address] || []).slice(0, 5);
     const lootBalance = Math.min(ethLootBalances[address], 5) || 0;
 
