@@ -29,7 +29,7 @@ The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/
 - Est. cost to sync 3000 owners: 3 ETH
 - Est. cost to sync daily (100 transfers): 0.05 ETH
 
-Gas costs quoted use the `setLootOwners` batch method for updating owners but using the "surgical" methods in the contract could be a marginally cheaper option.
+Gas costs quoted use the `setLootOwners` batch method for updating owners but using the "surgical" methods in the contract could be a bit cheaper.
 
 ## More Loot
 
