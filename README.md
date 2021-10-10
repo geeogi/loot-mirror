@@ -1,10 +1,10 @@
 # LootMirror
 
-The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is an approach for bridging the Loot game to L2s. The mirror is an L2 contract that implements ERC-721 except the `ownerOf` method returns the L1 value of the main [Loot](https://etherscan.io/token/0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7#readContract) contract and the transfer methods are disabled. The Loot component methods (e.g. `getWeapon`) are available.
+The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is an approach for bridging the Loot game to L2s (currently deployed to Polygon). The mirror is an L2 contract that implements ERC-721 except the `ownerOf` method returns the L1 value of the main [Loot](https://etherscan.io/token/0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7#readContract) contract and the transfer methods are disabled. The Loot component methods (e.g. `getWeapon`) are available.
 
 The owner state is updated regularly to reflect L1 transfers of Loot (see [actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml)). At the moment the update can only be performed by the owner of the LootMirror contract.
 
-> LootMirror is ready to use, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 5 Loot bags per owner are guaranteed to be mirrored.
+> LootMirror is ready to use on Polygon, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 5 Loot bags per owner are guaranteed to be mirrored. LootMirror has also been deployed on Arbitrum but is not synced.
 
 ## How it works
 
@@ -19,6 +19,15 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 ## Infra
 
 The script `legacy/seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `sanity.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
+
+## Arbitrum deployment
+
+The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b) but only the owners of the first 10 tokens have been synced so far.
+
+- Gas cost to deploy: [0.1695 ETH](https://arbiscan.io/tx/0x9dabaabd720890b221659634dbafd9326c9c64f477fa7cc8cb34e9701d281f0e)
+- Gas cost to sync 10 owners: [0.0125 ETH](https://arbiscan.io/tx/0x4d53afbd52daa228801ee145bdfd120dff11e969d8316fb4dc6e1e61b0baf50e)
+- Est. cost to sync 3000 owners: 3 ETH
+- Est. cost to sync daily (100 transfers): 0.08 ETH
 
 ## More Loot
 
