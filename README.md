@@ -22,12 +22,14 @@ The script `legacy/seed.ts` was used to seed the LootMirror with existing Loot o
 
 ## Arbitrum deployment
 
-The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b) but only the owners of the first 10 tokens have been synced so far.
+The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code) but only the owners of the first 10 tokens have been synced so far.
 
 - Gas cost to deploy: [0.1695 ETH](https://arbiscan.io/tx/0x9dabaabd720890b221659634dbafd9326c9c64f477fa7cc8cb34e9701d281f0e)
 - Gas cost to sync 10 owners: [0.0125 ETH](https://arbiscan.io/tx/0x4d53afbd52daa228801ee145bdfd120dff11e969d8316fb4dc6e1e61b0baf50e)
 - Est. cost to sync 3000 owners: 3 ETH
-- Est. cost to sync daily (100 transfers): 0.08 ETH
+- Est. cost to sync daily (100 transfers): 0.05 ETH
+
+Gas costs quoted use the `setLootOwners` batch method for updating owners but using the "surgical" methods in the contract could be a marginally cheaper option.
 
 ## More Loot
 
