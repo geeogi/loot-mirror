@@ -4,7 +4,7 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 The owner state is updated regularly to reflect L1 transfers of Loot (see [actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml)). At the moment the update can only be performed by the owner of the LootMirror contract.
 
-> LootMirror is ready to use on Polygon, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 5 Loot bags per owner are guaranteed to be mirrored. LootMirror has also been deployed on Arbitrum but is not synced.
+> LootMirror is ready to use on Polygon, but it's a work in progress and some of the owner data could be inaccurate. Currently, only 5 Loot bags per owner are guaranteed to be mirrored. LootMirror has also been deployed on Arbitrum using a lazier sync strategy.
 
 ## How it works
 
@@ -22,7 +22,14 @@ The script `legacy/seed.ts` was used to seed the LootMirror with existing Loot o
 
 ## Arbitrum deployment
 
-The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code) but only the owners of the first 10 tokens have been synced so far.
+The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code). The gas cost of doing a full sync on Arbitrum would be pretty expensive (see estimates below) so the Arbitrum LootMirror will use a lazy syncing strategy (work in progress):
+
+- The mirror will only sync addresses that request to be sync'd
+- An address can request to be synced by sending 0.002 ETH to the mirror controller
+
+This way we only mirror the users who are interested in playing the L2 game and their donation covers the TX costs (users only need to donate once). The mirror cron script will watch the donation address to pick up new addresses and perform the sync.
+
+### Gas estimates on Arbitrum
 
 - Gas cost to deploy: [0.1695 ETH](https://arbiscan.io/tx/0x9dabaabd720890b221659634dbafd9326c9c64f477fa7cc8cb34e9701d281f0e)
 - Gas cost to sync 10 owners: [0.0125 ETH](https://arbiscan.io/tx/0x4d53afbd52daa228801ee145bdfd120dff11e969d8316fb4dc6e1e61b0baf50e)
