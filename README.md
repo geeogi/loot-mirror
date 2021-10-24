@@ -25,9 +25,9 @@ The script `legacy/seed.ts` was used to seed the LootMirror with existing Loot o
 The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code). The gas cost of doing a full sync on Arbitrum would be pretty expensive (see estimates below) so the Arbitrum LootMirror will use a lazy syncing strategy (work in progress):
 
 - The mirror will only sync addresses that request to be sync'd
-- An address can request to be synced by sending 0.002 ETH to the mirror controller
+- An address can request to be synced by donating 0.002 ETH to the mirror controller
 
-This way we only mirror the users who are interested in playing the L2 game and their donation covers the TX costs (users only need to donate once). The mirror cron script will watch the donation address to pick up new addresses and perform the sync.
+This way we only mirror the users who are interested in playing the L2 game and their donation covers the TX costs (users only need to donate once, some users could donate more than others). The mirror cron script will watch the donation address to pick up new addresses and perform the sync.
 
 ### Gas estimates on Arbitrum
 
