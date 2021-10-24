@@ -18,7 +18,7 @@ The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e
 
 ## Infra
 
-The script `legacy/seed.ts` was used to seed the LootMirror with existing Loot owners. A cron job at `sanity.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
+A cron job at `sanity.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
 
 ## Arbitrum deployment
 
@@ -27,7 +27,7 @@ The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/
 - The mirror will only sync addresses that request to be sync'd
 - An address can request to be synced by donating 0.002 ETH to the mirror controller
 
-This way we only mirror the users who are interested in playing the L2 game and their donation covers the TX costs (users only need to donate once, some users could donate more than others). The mirror cron script will watch the donation address to pick up new addresses and perform the sync.
+This way we only sync the users who are interested in playing the L2 game and their donation covers the TX costs (users only need to donate once, some users could donate more than others). The mirror cron script will watch the donation address to pick up new addresses and perform the sync.
 
 ### Gas estimates on Arbitrum
 
