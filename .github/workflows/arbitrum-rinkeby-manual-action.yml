@@ -12,5 +12,5 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - run: yarn tsc arbitrumRinkeby/lazy-sync.ts
-      - run: node arbitrumRinkeby/lazy-sync.js
+      - run: yarn tsc arbitrum-rinkeby/lazy-sync.ts
+      - run: node arbitrum-rinkeby/lazy-sync.js
