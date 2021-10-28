@@ -6,6 +6,7 @@ jobs:
   sync:
     env:
       LOOT_BRIDGE_PRIVATE_KEY: ${{ secrets.PrivateKey }}
+      ETHEREUM_RPC_ENDPOINT: ${{ secrets.ETHEREUM_RPC_ENDPOINT }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
