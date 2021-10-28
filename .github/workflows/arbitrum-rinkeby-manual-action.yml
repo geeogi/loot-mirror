@@ -1,0 +1,16 @@
+name: Arbitrum Rinkeby Manual Sync
+
+on: workflow_dispatch
+
+jobs:
+  sync:
+    env:
+      LOOT_BRIDGE_PRIVATE_KEY: ${{ secrets.PrivateKey }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+      - run: yarn tsc arbitrumRinkeby/lazy-sync.ts
+      - run: node arbitrumRinkeby/lazy-sync.js

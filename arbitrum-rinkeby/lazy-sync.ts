@@ -33,10 +33,12 @@ const run = async () => {
     )
   );
 
-  // Addresses that require update
-  fetchRecentDonationAddresses();
-  const addressesToUpdate = [];
-  const uniqueAddresses = uniq(addressesToUpdate);
+  // Find addresses that require update
+  const donatingAddresses = await fetchRecentDonationAddresses();
+
+  console.log(`found ${donatingAddresses.length} donating addresses`);
+
+  const uniqueAddresses = uniq(donatingAddresses);
 
   console.log(`found ${uniqueAddresses.length} addresses to update`);
 

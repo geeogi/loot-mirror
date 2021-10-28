@@ -1,4 +1,4 @@
-name: Sync
+name: Polygon Sync
 
 on:
   schedule:

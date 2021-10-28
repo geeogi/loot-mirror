@@ -1,6 +1,6 @@
 # LootMirror
 
-The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is an approach for bridging the Loot game to L2s (currently deployed to Polygon). The mirror is an L2 contract that implements ERC-721 except the `ownerOf` method returns the L1 value of the main [Loot](https://etherscan.io/token/0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7#readContract) contract and the transfer methods are disabled. The Loot component methods (e.g. `getWeapon`) are available.
+The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is an approach for bridging the Loot game to L2s. The mirror is an L2 contract that implements ERC-721 except the `ownerOf` method returns the L1 value of the main [Loot](https://etherscan.io/token/0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7#readContract) contract and the transfer methods are disabled. The Loot component methods (e.g. `getWeapon`) are available.
 
 The owner state is updated regularly to reflect L1 transfers of Loot (see [actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml)). At the moment the update can only be performed by the owner of the LootMirror contract.
 
@@ -22,7 +22,7 @@ A cron job at `sanity.ts` is used to sync the LootMirror to reflect recent L1 tr
 
 ## Arbitrum deployment
 
-The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code). The gas cost of doing a full sync on Arbitrum would be pretty expensive (see estimates below) so the Arbitrum LootMirror will use a lazy syncing strategy (work in progress):
+The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code) and [Arbitrum testnet](https://testnet.arbiscan.io/address/0x3b624348fC06a8629E0107a8a409b83B6297C77B#code). The gas cost of doing a full sync on Arbitrum would be pretty expensive (see estimates below) so the Arbitrum LootMirror will use a lazy syncing strategy (work in progress):
 
 - The mirror will only sync addresses that request to be sync'd
 - An address can request to be synced by donating 0.002 ETH to the mirror controller

@@ -30,8 +30,8 @@ export const sendOwnerUpdates = (
       console.log("sending tx to LootMirror");
 
       const options = {
-        gasLimit: 30000000,
-        gasPrice: ethers.utils.parseUnits("1.0", "gwei"),
+        //gasLimit: 30000000,
+        //gasPrice: ethers.utils.parseUnits("1.0", "gwei"),
       };
 
       signer
