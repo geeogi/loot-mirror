@@ -1,0 +1,1 @@
+This repo contains the source code for the LootMirror on [Arbitrum](https://arbiscan.io/address/0x3b624348fc06a8629e0107a8a409b83b6297c77b#code) which includes some additional methods not found in the Polygon instance. This mirror is currently not being synced.
