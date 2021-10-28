@@ -1,8 +1,6 @@
-name: Sync
+name: Manual Sync
 
-on:
-  schedule:
-    - cron:  '0 */3 * * *'
+on: workflow_dispatch
 
 jobs:
   sync:
@@ -15,5 +13,6 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - run: yarn tsc sanity.ts
-      - run: node sanity.js
+      - run: yarn tsc polygon/sanity.ts
+      - run: node polygon/sanity.js
+
