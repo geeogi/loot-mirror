@@ -35,7 +35,7 @@ export const getOwnersForLootIds = async (
   const lootOwners: { [address: string]: number[] } = {};
 
   results.results.Loot.callsReturnContext.forEach((result) => {
-    const address = result.returnValues[0].toLowerCase();
+    const address = result.returnValues[0];
     const ownedId = Number(result.reference);
 
     lootOwners[address] = lootOwners[address]

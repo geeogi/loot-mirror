@@ -36,21 +36,27 @@ const run = async () => {
   // Find addresses that require update
   const donatingAddresses = await fetchRecentDonationAddresses();
 
-  console.log(`found ${donatingAddresses.length} donating addresses`);
-
-  const uniqueAddresses = uniq(donatingAddresses);
+  const uniqueAddresses = uniq(donatingAddresses).map((address) =>
+    address.toLowerCase()
+  );
 
   console.log(`found ${uniqueAddresses.length} addresses to update`);
 
+  const addressMap = Object.keys(ethLootOwners).reduce((acc, curr) => {
+    acc[curr.toLowerCase()] = curr;
+    return acc;
+  }, {} as { [key: string]: string });
+
   const ownerUpdates = uniqueAddresses
     .map((address) => ({
-      owner: address,
+      owner: addressMap[address],
       /*
        * Max 5 bags mirrored per address for now
        * Some owners have 600+ bags (=lots of gas), could be attempted for V2
        */
-      tokenIds: (ethLootOwners[address] || []).slice(0, 5),
+      tokenIds: (ethLootOwners[addressMap[address]] || []).slice(0, 5),
     }))
+    .filter((update) => update.tokenIds.length > 0)
     // could be 100s of updates, let's send 10 and pick up the rest next time
     .slice(0, 10);
 
