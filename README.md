@@ -10,15 +10,15 @@ The owner state is updated regularly to reflect L1 transfers of Loot (see [actio
 
 LootMirror enables L1 Loot owners to play games with their bags on L2. You could build a game for Loot on L2 and use the LootMirror to authorise players and fetch their bag attributes, leveraging the existing Loot owner community and L2 scalability. The scores of any L2 game can be associated with the bag id (new Loot owners would inherit the score of their bags). Any existing ERC-721 compatible L2 game could be played by Loot owners via the LootMirror.
 
-The LootMirror automatically mirrors L1 owner data on L2 without any action required from the users. The L1 Loot doesn't need to be locked, bridged, or staked and is never at risk.
+The LootMirror automatically mirrors L1 owner data on L2 with minimal action required from the users. The L1 Loot doesn't need to be locked or staked and is never at risk.
 
 ## Contract
 
-The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is currently deployed on Polygon.
+The [LootMirror](https://polygonscan.com/address/0xd09b6fbace8c284b2a6633c74163e2520f585acf#code) is currently deployed on Polygon. It is soon being deployed on Arbitrum.
 
 ## Infra
 
-A cron job at `sanity.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
+For Polygon, a cron job at `polygon/sanity.ts` is used to sync the LootMirror to reflect recent L1 transfers. This job runs approx every 3 hours via [GitHub actions](https://github.com/geeogi/loot-mirror/actions/workflows/cron-action.yml).
 
 ## Arbitrum deployment
 
@@ -31,7 +31,7 @@ This way we only sync the users who are interested in playing the L2 game and th
 
 ### Arbitrum testnet
 
-To have you address sync'd on the [Arbitrum testnet LootMirror](https://testnet.arbiscan.io/address/0x3b624348fC06a8629E0107a8a409b83B6297C77B#code) send a 0.00002 bridged rinkeby ETH donation to the [LootMirrorController](https://testnet.arbiscan.io/address/0xac490f011cfa4676b64beca052f92a868b8827a9). The sync runs every hour or so, after that time your Loot ownership data should be reflected in the Arbitrum testnet LootMirror (be warned that querying the contract via testnet Arbiscan interface is unreliable, try using a local RPC call instead).
+The Arbitrum testnet LootMirror is up and running and ready to be used. To have your address sync'd on the [Arbitrum testnet LootMirror](https://testnet.arbiscan.io/address/0x3b624348fC06a8629E0107a8a409b83B6297C77B#code) send a 0.00002 bridged rinkeby ETH donation to the [LootMirrorController](https://testnet.arbiscan.io/address/0xac490f011cfa4676b64beca052f92a868b8827a9). The sync runs every hour or so, after that time your Loot ownership data should be reflected in the Arbitrum testnet LootMirror (be warned that querying the contract via testnet Arbiscan interface is unreliable, try using a local RPC call instead).
 
 ### Gas estimates on Arbitrum
 
