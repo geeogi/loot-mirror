@@ -29,6 +29,10 @@ The LootMirror has also been deployed on [Arbitrum](https://arbiscan.io/address/
 
 This way we only sync the users who are interested in playing the L2 game and their donation covers the TX costs (users only need to donate once, some users could donate more than others). The mirror cron script will watch the donation address to pick up new addresses and perform the sync.
 
+### Arbitrum testnet
+
+To have you address sync'd on the [Arbitrum testnet LootMirror](https://testnet.arbiscan.io/address/0x3b624348fC06a8629E0107a8a409b83B6297C77B#code) send a 0.000002 ETH donation to the [LootMirrorController](https://arbiscan.io/address/0xac490f011cfa4676b64beca052f92a868b8827a9). The sync runs every hour or so, after that time your Loot ownership data should be reflected in the Arbitrum testnet LootMirror.
+
 ### Gas estimates on Arbitrum
 
 - Gas cost to deploy: [0.1695 ETH](https://arbiscan.io/tx/0x9dabaabd720890b221659634dbafd9326c9c64f477fa7cc8cb34e9701d281f0e)
