@@ -31,7 +31,9 @@ This way we only sync the users who are interested in playing the L2 game and th
 
 ### Arbitrum testnet
 
-The Arbitrum testnet LootMirror is up and running and ready to be used. To have your address sync'd on the [Arbitrum testnet LootMirror](https://testnet.arbiscan.io/address/0x3b624348fC06a8629E0107a8a409b83B6297C77B#code) send a 0.00002 bridged rinkeby ETH donation to the [LootMirrorController](https://testnet.arbiscan.io/address/0xac490f011cfa4676b64beca052f92a868b8827a9). The sync runs every hour or so, after that time your Loot ownership data should be reflected in the Arbitrum testnet LootMirror (be warned that querying the contract via testnet Arbiscan interface is unreliable, try using a local RPC call instead).
+The Arbitrum testnet LootMirror is up and running and ready to be used. To have your address sync'd on the [Arbitrum testnet LootMirror](https://testnet.arbiscan.io/address/0x3b624348fC06a8629E0107a8a409b83B6297C77B#code) send a 0.00002 bridged rinkeby ETH donation to the [LootMirrorController](https://testnet.arbiscan.io/address/0xac490f011cfa4676b64beca052f92a868b8827a9). The sync runs every hour or so and after that time your Loot ownership data should be reflected in the Arbitrum testnet LootMirror (be warned that querying the contract via testnet Arbiscan interface is unreliable, try using a local RPC call to test instead).
+
+To incorporate the LootMirror into your game you can call the ownerOf and balanceOf methods (and any other Loot methods e.g. getWeapon) from your game contract.
 
 ### Gas estimates on Arbitrum
 
